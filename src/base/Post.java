@@ -16,7 +16,11 @@ public class Post {
 		return content;
 	}
 	
-	public String getDate(){
+	public Date getDate(){
+		return date;
+	}
+	
+	public String getDateinString(){
 		return date.toString();
 	}
 	
@@ -40,7 +44,7 @@ public class Post {
 		else{
 			o.getClass();
 			Post post = (Post) o;
-			if(!this.equals(o)){
+			if(!this.date.equals(post.date) || !this.content.equals(post.content)){
 				ans = false;
 			}
 		}
@@ -54,8 +58,10 @@ public class Post {
 		
 		
 		
-		date.hashCode();
-		content.hashCode();
+//		date.hashCode();
+//		content.hashCode();
+		
+		hashCode = date.hashCode() + content.hashCode();
 		
 		return hashCode;
 	}

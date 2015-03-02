@@ -12,6 +12,6 @@ public class FriendsPost  extends Post{
 	}
 	
 	public String toString(){
-		return friends.toString() + "\n" + this.getDate() + "\n" + this.getContent();
+		return friends.toString() + "\n" + this.getDateinString() + "\n" + this.getContent();
 	}
 }
