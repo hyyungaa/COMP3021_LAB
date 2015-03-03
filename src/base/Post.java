@@ -56,11 +56,6 @@ public class Post {
 	public int hashCode(){
 		int hashCode = 0;
 		
-		
-		
-//		date.hashCode();
-//		content.hashCode();
-		
 		hashCode = date.hashCode() + content.hashCode();
 		
 		return hashCode;
