@@ -35,7 +35,10 @@ public class TestBlog {
 			else if(prompt.startsWith("post")){
 				
 				String[] promptcontent = prompt.split(" ");
-				String content = promptcontent[1];
+				String content = new String();
+				for(int i = 1; i<promptcontent.length; i++){
+					content += (promptcontent[i] + " ");
+				}
 				Date date = new Date();
 				Post post = new Post(date, content);
 				myblog.post(post);
