@@ -2,7 +2,7 @@ package base;
 
 import java.util.Date;
 
-public class Post {
+public class Post implements Comparable<Post> {
 	
 	private Date date;
 	private String content;
@@ -33,39 +33,47 @@ public class Post {
 		return date.toString()+ "\n" + content;
 	}
 	
-	@Override
-	public boolean equals(Object o){
-		
-		boolean ans = true;
-		
-		if(o == null){
-			ans = false;
-		}
-		else{
-			o.getClass();
-			Post post = (Post) o;
-			if(!this.date.equals(post.date) || !this.content.equals(post.content)){
-				ans = false;
-			}
-		}
-		
-		return ans;
-	}
-	
-	@Override
-	public int hashCode(){
-		int hashCode = 0;
-		
-		hashCode = date.hashCode() + content.hashCode();
-		
-		return hashCode;
-	}
-	
 	public boolean contains(String keyword){
 		if(content.contains(keyword))
 			return true;
 		else
 			return false;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((content == null) ? 0 : content.hashCode());
+		result = prime * result + ((date == null) ? 0 : date.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Post other = (Post) obj;
+		if (content == null) {
+			if (other.content != null)
+				return false;
+		} else if (!content.equals(other.content))
+			return false;
+		if (date == null) {
+			if (other.date != null)
+				return false;
+		} else if (!date.equals(other.date))
+			return false;
+		return true;
+	}
+	
+	@Override
+	public int compareTo(Post p){
+		return this.date.compareTo(p.date);
 	}
 
 }

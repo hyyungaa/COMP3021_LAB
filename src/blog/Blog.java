@@ -1,6 +1,7 @@
 package blog;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import base.*;
 
@@ -51,31 +52,54 @@ public class Blog {
 	public String toString(){
 		return allPosts.toString();
 	}
-	
-	public boolean equals(Object o){
-		boolean ans = true;
 
-		if(o == null){
-			ans = false;
-		}
-		else{
-			o.getClass();
-			Blog blog = (Blog) o;
-			if(!this.user.equals(blog.user) || !this.allPosts.equals(blog.allPosts)){
-				ans = false;
-			}
-		}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((allPosts == null) ? 0 : allPosts.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
+		return result;
+	}
 
-		return ans;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Blog other = (Blog) obj;
+		if (allPosts == null) {
+			if (other.allPosts != null)
+				return false;
+		} else if (!allPosts.equals(other.allPosts))
+			return false;
+		if (user == null) {
+			if (other.user != null)
+				return false;
+		} else if (!user.equals(other.user))
+			return false;
+		return true;
 	}
 	
-	public int hashCode(){
+	public void setPosts(ArrayList<Post> allposts){
+		this.allPosts = allposts;
+	}
+	
+	public void search(int month, String someone){
 		
-		int hashCode = 0;
-
-		hashCode = user.hashCode() + allPosts.hashCode();
-
-		return hashCode;
+		Calendar cal = Calendar.getInstance();
+		
+		for(Post p : allPosts){
+			cal.setTime(p.getDate());
+			int postMonth = cal.get(Calendar.MONTH) + 1;
+			
+			if((postMonth==month)&&(p.getContent().contains(someone)))
+				System.out.println(p);
+		}
 	}
 
 }
