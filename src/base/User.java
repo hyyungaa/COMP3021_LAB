@@ -1,6 +1,8 @@
 package base;
 
-public class User implements Comparable<User>{
+import java.io.Serializable;
+
+public class User implements Comparable<User>, Serializable{
 	
 	private int userId;
 	private String userName;
@@ -10,6 +12,10 @@ public class User implements Comparable<User>{
 		this.userId = userId;
 		this.userName = userName;
 		this.userEmail = userEmail;			
+	}
+	
+	public String getUserName(){
+		return this.userName;
 	}
 	
 	@Override

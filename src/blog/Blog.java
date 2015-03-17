@@ -1,11 +1,18 @@
 package blog;
 
+//import java.io.FileInputStream;
+//import java.io.FileNotFoundException;
+//import java.io.FileOutputStream;
+//import java.io.ObjectInputStream;
+//import java.io.ObjectOutputStream;
+//import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import base.*;
 
-public class Blog {
+public class Blog implements Serializable{
 	
 	private User user;
 	private ArrayList<Post> allPosts;
@@ -28,6 +35,7 @@ public class Blog {
 	}
 	
 	public void list(){
+		System.out.println("Current posts:");
 		for(int i=0; i<allPosts.size(); i++){
 			if(allPosts.get(i)!=null){
 				System.out.println("Post[" + (i+1) + "]:" + allPosts.get(i));
@@ -99,6 +107,36 @@ public class Blog {
 			
 			if((postMonth==month)&&(p.getContent().contains(someone)))
 				System.out.println(p);
+		}
+	}
+
+	public void save(String filepath){
+		try{
+		FileOutputStream fs = new FileOutputStream(filepath);
+		ObjectOutputStream os = new ObjectOutputStream(fs);
+		os.writeObject(this);
+		os.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+
+	public void load(String filepath){
+		try{
+			FileInputStream fs = new FileInputStream(filepath);
+			ObjectInputStream os = new ObjectInputStream(fs);
+			Blog lb = (Blog) os.readObject();
+			this.user = lb.user;
+			this.allPosts = lb.allPosts;
+			os.close();
+		}catch(FileNotFoundException e){
+			System.out.println("Wait! There is something wrong. I cannot find the file..");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
