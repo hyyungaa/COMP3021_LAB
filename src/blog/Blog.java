@@ -64,7 +64,7 @@ public class Blog implements Serializable{
 	public String print(){
 		String out = "";
 		for(Post i : allPosts){
-			out += i.toString() + "\n";
+			out += i.toString() + "\n\r";
 		}
 		return out;
 	}

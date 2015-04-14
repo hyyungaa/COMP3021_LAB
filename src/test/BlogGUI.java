@@ -21,7 +21,7 @@ public class BlogGUI implements ActionListener, KeyListener{
 	
 	private JFrame mainFrame;
 	private JTextArea postTextArea;
-	private JTextField postContent;
+	private JTextArea postContent;
 	private JButton refresh;
 	private JButton post;
 	private JLabel label;
@@ -92,10 +92,12 @@ public class BlogGUI implements ActionListener, KeyListener{
 					Date date = new Date();
 					Post post = new Post(date, content);
 					myBlog.post(post);
-//					String savefilepath="C:/Users/hyyungaa/Desktop/"+user.getUserName()+".blog";
-//					myBlog.save(savefilepath);
+					String savefilepath="C:/Users/hyyungaa.CSD/Desktop/"+user.getUserName()+".blog";
+					myBlog.save(savefilepath);
 					postContent.setText(myBlog.print());
 					postTextArea.setText("");
+					wordlength = 140;
+					label.setText("You can still input " + wordlength + " Characters");
 				}
 			}
 		});
@@ -106,7 +108,7 @@ public class BlogGUI implements ActionListener, KeyListener{
 		refresh.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				try{
-				String loadfilepath="C:/Users/hyyungaa/Desktop/"+user.getUserName()+".blog";
+				String loadfilepath="C:/Users/hyyungaa.CSD/Desktop/"+user.getUserName()+".blog";
 				Blog newblog = new Blog(user);
 				newblog.load(loadfilepath);
 				myBlog = newblog;
@@ -120,11 +122,11 @@ public class BlogGUI implements ActionListener, KeyListener{
 		ButtonPanel.add(refresh);
 //		ButtonPanel.setPreferredSize(new Dimension(800, 80));
 		
-		postContent = new JTextField("Here is all the post");
+		postContent = new JTextArea("Here is all the post");
 		postContent.setPreferredSize(pTCSize);
 		postContent.setBorder(new TitledBorder(null, "Here is all of posts:"));
 		postContent.setEditable(false);
-		postContent.setHorizontalAlignment(JTextField.LEFT);
+//		postContent.setHorizontalAlignment(JTextField.LEFT);
 		postContent.setFont(post.getFont().deriveFont(25.0f));
 		
 		mainFrame.add(pTAmix, BorderLayout.NORTH);
