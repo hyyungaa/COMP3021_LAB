@@ -60,6 +60,14 @@ public class Blog implements Serializable{
 	public String toString(){
 		return allPosts.toString();
 	}
+	
+	public String print(){
+		String out = "";
+		for(Post i : allPosts){
+			out += i.toString() + "\n";
+		}
+		return out;
+	}
 
 	@Override
 	public int hashCode() {
