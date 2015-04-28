@@ -31,7 +31,7 @@ public class Post implements Comparable<Post>, Serializable {
 	
 	@Override
 	public String toString(){
-		return date.toString()+ "\n" + content;
+		return date.toString() + " content: " + content;
 	}
 	
 	public boolean contains(String keyword){
