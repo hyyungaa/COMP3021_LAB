@@ -6,28 +6,69 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class MultiThreadServer {
-
-	public static final int PORT = 300;
 	
-	public static int visitor = 0;
-
-	public static void main(String[] args){
-		while(true){
-			try(
-					ServerSocket serverSocket = new ServerSocket(PORT);
-					Socket clientSocket = serverSocket.accept();
-					PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-					BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-					){
-				visitor++;
-				ThreadHandler newThread = new ThreadHandler(clientSocket, visitor);
-				newThread.run();
-			}catch(Exception e){
-//				System.out.println("Error!");
-//				System.out.println(e.getMessage());
+	ArrayList clientOutputStreams;
+	int visitor = 0;
+	
+	public class ThreadHandler implements Runnable{
+		
+		BufferedReader reader;
+		Socket sock;
+		
+		public ThreadHandler(Socket clientSocket){
+			try{
+				sock = clientSocket;
+				InputStreamReader isReader = new InputStreamReader(sock.getInputStream());
+				reader = new BufferedReader(isReader);
+			}catch(Exception ex){
+				ex.printStackTrace();
 			}
+		}
+		
+		public void run(){
+			String inputLine;
+			try{
+				PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
+				while((inputLine = reader.readLine()) != null){
+					if(inputLine.equals("visitor")){
+						out.println("You're the " + visitor + " visitor today");
+					}
+					else if(inputLine.equals("quit"))
+						System.exit(1);
+					else
+					out.println(inputLine);
+				}
+			}catch(Exception ex){
+//				ex.printStackTrace();
+			}
+		}
+	}
+	
+	public static void main(String[] args){
+		new MultiThreadServer().go();
+	}
+	
+	public void go(){
+		
+		clientOutputStreams = new ArrayList();
+		
+		try{
+			ServerSocket serverSock = new ServerSocket(3021);
+			
+			while(true){
+				Socket clientSocket = serverSock.accept();
+				visitor++;
+				PrintWriter writer = new PrintWriter(clientSocket.getOutputStream());
+				clientOutputStreams.add(writer);
+				
+				Thread t = new Thread(new ThreadHandler(clientSocket));
+				t.start();
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
 		}
 	}
 
