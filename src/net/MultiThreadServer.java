@@ -17,12 +17,14 @@ public class MultiThreadServer {
 		
 		BufferedReader reader;
 		Socket sock;
+		int visitor;
 		
-		public ThreadHandler(Socket clientSocket){
+		public ThreadHandler(Socket clientSocket, int visitor){
 			try{
 				sock = clientSocket;
 				InputStreamReader isReader = new InputStreamReader(sock.getInputStream());
 				reader = new BufferedReader(isReader);
+			    this.visitor = visitor;
 			}catch(Exception ex){
 				ex.printStackTrace();
 			}
@@ -64,7 +66,7 @@ public class MultiThreadServer {
 				PrintWriter writer = new PrintWriter(clientSocket.getOutputStream());
 				clientOutputStreams.add(writer);
 				
-				Thread t = new Thread(new ThreadHandler(clientSocket));
+				Thread t = new Thread(new ThreadHandler(clientSocket, visitor));
 				t.start();
 			}
 		}catch(Exception ex){
